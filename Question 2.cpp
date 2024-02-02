@@ -1,29 +1,18 @@
 #include <iostream>
 using namespace std;
+template <int N, int K>
+struct Sm {
+    static constexpr int value = N + Sm<N, K - 1>::value * N;
+};
 
-int pow(int b, int exp) {
-    int result = 1;
-    for (int i = 0; i < exp; ++i) {
-        result *= b;
-    }
-    return result;
-}
-
-int sum(int n, int k) {
-    int result = 0;
-    for (int i = 1; i <= k; ++i) {
-        result += pow(n, i);
-    }
-    return result;
-}
+template <int N>
+struct Sm<N, 1> {
+    static constexpr int value = N;
+};
 
 int main() {
-    int n, k;
-    cout << "Enter the value of n: ";
-    cin >> n;
-    cout << "Enter the value of k: ";
-    cin >> k;
-    int result = sum(n, k);
-    cout << "Sum of the sequence F(" << n << ", " << k << ") = " << result << endl;
+    constexpr int result = Sm<2, 3>::value;
+    cout << "Sum: " << result << endl;
+
     return 0;
 }
